@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caça-Padrões — Jogo Matemático</title>
+  <meta name="description" content="Jogo matemático de sequências numéricas com modos singleplayer e multiplayer.">
+  <link rel="stylesheet" href="caca-padroes.css">
+</head>
+
+<body>
+  <div class="game-wrap" id="app">
+
+    <!-- ═══════ MENU PRINCIPAL ═══════ -->
+    <div id="menuScreen" class="screen">
+      <div class="menu-header">
+        <h1 class="menu-title">Caça-Padrões</h1>
+        <p class="menu-subtitle">Descubra a regra oculta na sequência</p>
+      </div>
+
+      <div class="nickname-row">
+        <label for="nicknameInput" class="input-label">Seu apelido</label>
+        <input type="text" id="nicknameInput" class="text-input" placeholder="Ex: MathMaster" maxlength="16"
+          autocomplete="off">
+      </div>
+
+      <div class="menu-buttons">
+        <button class="menu-btn btn-play" id="btnPlay">
+          <span class="menu-btn-icon">▶</span>
+          <div>
+            <div class="menu-btn-title">Jogar Solo</div>
+            <div class="menu-btn-desc">Modo singleplayer clássico</div>
+          </div>
+        </button>
+        <button class="menu-btn btn-join" id="btnJoinMenu">
+          <span class="menu-btn-icon">🚪</span>
+          <div>
+            <div class="menu-btn-title">Entrar em Sala</div>
+            <div class="menu-btn-desc">Use um código para entrar</div>
+          </div>
+        </button>
+        <button class="menu-btn btn-create" id="btnCreateMenu">
+          <span class="menu-btn-icon">⚙</span>
+          <div>
+            <div class="menu-btn-title">Criar Sala</div>
+            <div class="menu-btn-desc">Monte sua partida</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══════ ENTRAR EM SALA ═══════ -->
+    <div id="joinScreen" class="screen hidden">
+      <button class="back-btn" id="btnBackJoin">← Voltar</button>
+      <h2 class="screen-title">Entrar em Sala</h2>
+      <p class="screen-desc">Digite o código da sala para entrar na partida.</p>
+
+      <div class="join-form">
+        <label for="roomCodeInput" class="input-label">Código da sala</label>
+        <input type="text" id="roomCodeInput" class="text-input code-input" placeholder="MATH-0000" maxlength="9"
+          autocomplete="off">
+        <p class="join-error hidden" id="joinError"></p>
+        <button class="btn btn-primary btn-full" id="btnJoinRoom">Entrar</button>
+      </div>
+    </div>
+
+    <!-- ═══════ CRIAR SALA ═══════ -->
+    <div id="createScreen" class="screen hidden">
+      <button class="back-btn" id="btnBackCreate">← Voltar</button>
+      <h2 class="screen-title">Criar Sala</h2>
+
+      <div class="create-form">
+        <!-- Modo de Jogo -->
+        <div class="form-group">
+          <label class="input-label">Modo de Jogo</label>
+          <div class="toggle-group" id="modeToggle">
+            <button class="toggle-btn active" data-value="jvj">JvJvJ</button>
+            <button class="toggle-btn" data-value="gvg">GvG</button>
+          </div>
+          <p class="form-hint" id="modeHint">Free-for-all: cada um por si, até 6 jogadores</p>
+        </div>
+
+        <!-- Tipo de Partida -->
+        <div class="form-group">
+          <label class="input-label">Tipo de Partida</label>
+          <div class="toggle-group" id="typeToggle">
+            <button class="toggle-btn active" data-value="quick">Jogo Rápido</button>
+            <button class="toggle-btn" data-value="custom">Personalizado</button>
+          </div>
+        </div>
+
+        <!-- Configurações Personalizadas -->
+        <div id="customSettings" class="custom-settings hidden">
+          <div class="form-group">
+            <label class="input-label">Padrões incluídos</label>
+            <div class="pattern-checklist" id="patternChecklist">
+              <!-- Gerado via JS -->
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="input-label">Dificuldade</label>
+            <div class="toggle-group" id="diffToggle">
+              <button class="toggle-btn" data-value="easy">Fácil</button>
+              <button class="toggle-btn active" data-value="all">Todas</button>
+              <button class="toggle-btn" data-value="hard">Difícil</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantidade de Perguntas -->
+        <div class="form-group">
+          <label class="input-label">Quantidade de perguntas</label>
+          <div class="toggle-group" id="qCountToggle">
+            <button class="toggle-btn" data-value="5">5</button>
+            <button class="toggle-btn active" data-value="10">10</button>
+            <button class="toggle-btn" data-value="15">15</button>
+          </div>
+        </div>
+
+        <!-- Timer por Pergunta -->
+        <div class="form-group">
+          <label class="input-label">Tempo por pergunta</label>
+          <div class="toggle-group" id="qTimerToggle">
+            <button class="toggle-btn active" data-value="0">Sem</button>
+            <button class="toggle-btn" data-value="15">15s</button>
+            <button class="toggle-btn" data-value="30">30s</button>
+            <button class="toggle-btn" data-value="60">60s</button>
+          </div>
+        </div>
+
+        <!-- Timer Global -->
+        <div class="form-group">
+          <label class="input-label">Tempo total da partida</label>
+          <div class="toggle-group" id="gTimerToggle">
+            <button class="toggle-btn active" data-value="0">Sem</button>
+            <button class="toggle-btn" data-value="180">3 min</button>
+            <button class="toggle-btn" data-value="300">5 min</button>
+            <button class="toggle-btn" data-value="600">10 min</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-full" id="btnCreateRoom">Criar Sala</button>
+      </div>
+    </div>
+
+    <!-- ═══════ SALA DE ESPERA ═══════ -->
+    <div id="lobbyScreen" class="screen hidden">
+      <div class="lobby-header">
+        <h2 class="screen-title">Sala de Espera</h2>
+        <div class="room-code-display">
+          <span class="room-code-label">Código:</span>
+          <span class="room-code" id="lobbyRoomCode">MATH-0000</span>
+          <button class="copy-btn" id="btnCopyCode" title="Copiar código">📋</button>
+        </div>
+      </div>
+
+      <div class="lobby-info">
+        <span class="lobby-mode-badge" id="lobbyModeBadge">JvJvJ</span>
+        <span class="lobby-settings-text" id="lobbySettingsText">10 perguntas · sem timer</span>
+      </div>
+
+      <div class="lobby-players" id="lobbyPlayers">
+        <!-- Gerado via JS -->
+      </div>
+
+      <div class="lobby-actions">
+        <button class="btn btn-primary btn-full" id="btnStartGame">Iniciar Partida</button>
+        <p class="lobby-hint" id="lobbyHint">Aguardando jogadores...</p>
+        <button class="btn btn-full" id="btnLeaveLobby">Sair da Sala</button>
+      </div>
+    </div>
+
+    <!-- ═══════ TELA DO JOGO ═══════ -->
+    <div id="gameScreen" class="screen hidden">
+      <div class="header">
+        <div class="title-area">
+          <h2>Caça-Padrões</h2>
+          <p id="gameSubtitle">Descubra a regra oculta na sequência</p>
+        </div>
+        <div class="stats">
+          <div class="stat-card">
+            <div class="val" id="scoreVal">0</div>
+            <div class="lbl">pontos</div>
+          </div>
+          <div class="stat-card" id="livesCard">
+            <div class="lives" id="livesRow"></div>
+            <div class="lbl">vidas</div>
+          </div>
+          <div class="stat-card hidden" id="timerCard">
+            <div class="val timer-val" id="timerVal">--</div>
+            <div class="lbl">tempo</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Progresso / Corrida -->
+      <div id="progressArea">
+        <!-- Singleplayer: barra normal -->
+        <div class="progress-bar" id="singleProgressBar">
+          <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <!-- JvJvJ: pista de corrida com bolinhas -->
+        <div class="race-track hidden" id="raceTrack">
+          <!-- Gerado via JS -->
+        </div>
+        <!-- GvG: duas barras de time -->
+        <div class="team-bars hidden" id="teamBars">
+          <div class="team-bar-row">
+            <span class="team-label blue-label">Azul</span>
+            <div class="team-progress-bar">
+              <div class="team-progress-fill blue-fill" id="blueBar" style="width:0%"></div>
+            </div>
+            <span class="team-score" id="blueScore">0</span>
+          </div>
+          <div class="team-bar-row">
+            <span class="team-label red-label">Verm.</span>
+            <div class="team-progress-bar">
+              <div class="team-progress-fill red-fill" id="redBar" style="width:0%"></div>
+            </div>
+            <span class="team-score" id="redScore">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span id="levelBadge" class="level-badge">Nível 1 — Iniciante</span>
+        <span class="streak" id="streakBadge">🔥 sequência!</span>
+      </div>
+
+      <br>
+      <div id="gameArea"></div>
+    </div>
+
+    <!-- ═══════ TELA DE RESULTADOS MULTIPLAYER ═══════ -->
+    <div id="multiEndScreen" class="screen hidden">
+      <h2 class="screen-title">Fim de Jogo!</h2>
+
+      <!-- JvJvJ Pódio -->
+      <div id="podiumArea" class="hidden">
+        <div class="podium" id="podium">
+          <!-- Gerado via JS -->
+        </div>
+      </div>
+
+      <!-- GvG Resultado -->
+      <div id="gvgResultArea" class="hidden">
+        <div class="team-result" id="teamResult">
+          <!-- Gerado via JS -->
+        </div>
+      </div>
+
+      <!-- Tabela de todos os jogadores -->
+      <div class="results-table" id="resultsTable">
+        <!-- Gerado via JS -->
+      </div>
+
+      <div class="end-actions">
+        <button class="btn btn-primary" id="btnPlayAgain">Jogar Novamente</button>
+        <button class="btn" id="btnBackToMenu">Voltar ao Menu</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="caca-padroes.js"></script>
+</body>
+
+</html>

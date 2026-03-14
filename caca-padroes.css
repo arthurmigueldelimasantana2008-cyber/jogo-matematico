@@ -1,0 +1,910 @@
+/* ── Reset & Base ── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f4f4f0;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+  color: #1a1a18;
+}
+
+.hidden { display: none !important; }
+
+.game-wrap {
+  width: 100%;
+  max-width: 640px;
+}
+
+/* ── Telas ── */
+.screen { animation: fadeIn 0.25s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── MENU PRINCIPAL ── */
+.menu-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-top: 1rem;
+}
+
+.menu-title {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.menu-subtitle {
+  font-size: 14px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.nickname-row {
+  margin-bottom: 1.5rem;
+}
+
+.input-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.text-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.text-input:focus { border-color: #185FA5; }
+
+.code-input {
+  font-family: monospace;
+  font-size: 20px;
+  letter-spacing: 3px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid #e0e0dc;
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: all 0.15s;
+}
+
+.menu-btn:hover { border-color: #ccc; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.menu-btn:active { transform: scale(0.99); }
+
+.menu-btn-icon { font-size: 24px; min-width: 36px; text-align: center; }
+
+.menu-btn-title {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.menu-btn-desc {
+  font-size: 12px;
+  color: #999;
+  margin-top: 1px;
+}
+
+.btn-play { border-left: 3px solid #185FA5; }
+.btn-join { border-left: 3px solid #3B6D11; }
+.btn-create { border-left: 3px solid #E88D1A; }
+
+/* ── BOTÃO VOLTAR ── */
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  padding: 4px 0;
+  margin-bottom: 1rem;
+  font-family: inherit;
+  transition: color 0.15s;
+}
+.back-btn:hover { color: #333; }
+
+.screen-title {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.screen-desc {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 1.5rem;
+}
+
+/* ── ENTRAR EM SALA ── */
+.join-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.join-error {
+  font-size: 13px;
+  color: #A32D2D;
+  background: #FCEBEB;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+/* ── CRIAR SALA ── */
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-hint {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.toggle-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.toggle-btn {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  font-size: 13px;
+  font-family: inherit;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex: 1;
+  min-width: 60px;
+  text-align: center;
+}
+
+.toggle-btn:hover { background: #f9f9f7; }
+.toggle-btn.active {
+  background: #185FA5;
+  border-color: #185FA5;
+  color: #fff;
+}
+
+.custom-settings {
+  background: #fafaf8;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pattern-checklist {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.pattern-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+}
+
+.pattern-check input[type="checkbox"] {
+  accent-color: #185FA5;
+}
+
+/* ── SALA DE ESPERA ── */
+.lobby-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.room-code-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+
+.room-code-label { font-size: 11px; color: #999; text-transform: uppercase; }
+
+.room-code {
+  font-family: monospace;
+  font-size: 16px;
+  font-weight: 600;
+  color: #185FA5;
+  letter-spacing: 1px;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+  transition: transform 0.15s;
+}
+.copy-btn:active { transform: scale(0.9); }
+
+.lobby-info {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.lobby-mode-badge {
+  font-size: 12px;
+  font-weight: 500;
+  color: #185FA5;
+  background: #E6F1FB;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.lobby-settings-text {
+  font-size: 12px;
+  color: #888;
+}
+
+.lobby-players {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.lobby-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.lobby-player.self { border-color: #185FA5; background: #f8fbff; }
+
+.player-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.player-name {
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.player-host-badge {
+  font-size: 10px;
+  color: #BA7517;
+  background: #FAEEDA;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.player-team-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.player-team-badge:hover { opacity: 0.8; }
+
+.player-team-badge.blue { color: #185FA5; background: #E6F1FB; }
+.player-team-badge.red { color: #A32D2D; background: #FCEBEB; }
+
+.lobby-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.lobby-hint {
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* ── HEADER DO JOGO ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.title-area h2 {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.title-area p {
+  font-size: 13px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.stats { display: flex; gap: 12px; }
+
+.stat-card {
+  background: #fff;
+  border: 0.5px solid #ddd;
+  border-radius: 8px;
+  padding: 8px 14px;
+  text-align: center;
+  min-width: 60px;
+}
+
+.stat-card .val {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: monospace;
+}
+
+.stat-card .lbl {
+  font-size: 11px;
+  color: #888;
+  margin-top: 1px;
+}
+
+.timer-val { color: #BA7517; }
+
+.lives { display: flex; gap: 4px; align-items: center; justify-content: center; }
+
+.heart {
+  width: 10px;
+  height: 10px;
+  background: #E24B4A;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.heart.lost {
+  background: #eee;
+  border: 0.5px solid #ccc;
+}
+
+.level-badge {
+  font-size: 12px;
+  color: #185FA5;
+  background: #E6F1FB;
+  padding: 4px 10px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.streak {
+  font-size: 12px;
+  color: #BA7517;
+  background: #FAEEDA;
+  padding: 3px 8px;
+  border-radius: 8px;
+  display: none;
+  margin-left: 8px;
+}
+
+.streak.show { display: inline-block; }
+
+/* ── BARRA DE PROGRESSO (Singleplayer) ── */
+.progress-bar {
+  height: 4px;
+  background: #e8e8e4;
+  border-radius: 2px;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #185FA5;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* ── PISTA DE CORRIDA (JvJvJ) ── */
+.race-track {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 1.25rem;
+}
+
+.race-lane {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.race-lane + .race-lane {
+  border-top: 1px solid #f4f4f0;
+}
+
+.race-name {
+  font-size: 11px;
+  color: #888;
+  min-width: 70px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.race-bar {
+  flex: 1;
+  height: 8px;
+  background: #f4f4f0;
+  border-radius: 4px;
+  position: relative;
+  overflow: visible;
+}
+
+.race-ball {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0%;
+  transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  z-index: 1;
+}
+
+.race-score {
+  font-size: 12px;
+  font-weight: 500;
+  font-family: monospace;
+  min-width: 30px;
+  text-align: right;
+}
+
+/* ── BARRAS DE TIME (GvG) ── */
+.team-bars {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.team-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 40px;
+}
+
+.blue-label { color: #185FA5; }
+.red-label { color: #A32D2D; }
+
+.team-progress-bar {
+  flex: 1;
+  height: 10px;
+  background: #e8e8e4;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.team-progress-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+.blue-fill { background: #185FA5; }
+.red-fill { background: #E24B4A; }
+
+.team-score {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: monospace;
+  min-width: 30px;
+  text-align: right;
+}
+
+/* ── CARD DE PERGUNTA ── */
+.question-card {
+  background: #fff;
+  border: 0.5px solid #ddd;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.hint-row {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 0.75rem;
+}
+
+.hint-type { font-weight: 500; color: #666; }
+
+.sequence-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.seq-num {
+  font-size: 22px;
+  font-weight: 500;
+  font-family: monospace;
+  background: #f4f4f0;
+  border-radius: 8px;
+  padding: 8px 14px;
+  min-width: 52px;
+  text-align: center;
+}
+
+.seq-sep { font-size: 16px; color: #bbb; }
+
+.seq-blank {
+  font-size: 22px;
+  font-family: monospace;
+  background: #f9f9f7;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 4px;
+  width: 62px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.seq-blank:focus { border-color: #185FA5; }
+.seq-blank.correct { border-color: #3B6D11; background: #EAF3DE; color: #3B6D11; }
+.seq-blank.wrong { border-color: #A32D2D; background: #FCEBEB; color: #A32D2D; }
+
+.action-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ── BOTÕES ── */
+.btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 0.5px solid #ccc;
+  background: transparent;
+  font-size: 14px;
+  color: #1a1a18;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.btn:hover { background: #f4f4f0; }
+.btn:active { transform: scale(0.98); }
+
+.btn-primary {
+  background: #185FA5;
+  border-color: #185FA5;
+  color: #E6F1FB;
+}
+
+.btn-primary:hover { background: #0C447C; }
+.btn-primary:disabled { background: #aaa; border-color: #aaa; cursor: not-allowed; }
+
+.btn-full { width: 100%; text-align: center; }
+
+.feedback {
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.feedback.ok { color: #3B6D11; background: #EAF3DE; }
+.feedback.err { color: #A32D2D; background: #FCEBEB; }
+
+.pattern-hint {
+  margin-top: 0.75rem;
+  font-size: 13px;
+  color: #555;
+  background: #f4f4f0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: none;
+}
+
+.pattern-hint.show { display: block; }
+
+/* ── TELA FINAL (Singleplayer) ── */
+.end-screen {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  background: #fff;
+  border: 0.5px solid #ddd;
+  border-radius: 12px;
+}
+
+.end-screen .big-score {
+  font-size: 56px;
+  font-weight: 500;
+  font-family: monospace;
+}
+
+.end-screen p {
+  font-size: 14px;
+  color: #888;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.end-screen .grade {
+  font-size: 14px;
+  font-weight: 500;
+  color: #185FA5;
+  background: #E6F1FB;
+  padding: 4px 14px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+/* ── TELA FINAL (Multiplayer) ── */
+.end-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* Pódio JvJvJ */
+.podium {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 12px;
+  margin: 1.5rem 0;
+  min-height: 170px;
+}
+
+.podium-place {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.podium-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.podium-name {
+  font-size: 12px;
+  font-weight: 500;
+  max-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.podium-score {
+  font-size: 13px;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.podium-stand {
+  width: 70px;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.stand-1 { height: 80px; background: #E8A317; }
+.stand-2 { height: 60px; background: #999; }
+.stand-3 { height: 45px; background: #B87333; }
+
+/* Resultado GvG */
+.team-result {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.team-winner-text {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.team-winner-text.blue { color: #185FA5; }
+.team-winner-text.red { color: #A32D2D; }
+.team-winner-text.draw { color: #888; }
+
+.team-scores-display {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 12px;
+}
+
+.team-score-block {
+  text-align: center;
+}
+
+.team-score-val {
+  font-size: 32px;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.team-score-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.blue-text { color: #185FA5; }
+.red-text { color: #A32D2D; }
+
+/* Tabela de resultados */
+.results-table {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.results-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+}
+
+.results-row + .results-row { border-top: 1px solid #f4f4f0; }
+
+.results-pos {
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+}
+
+.results-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.results-name {
+  flex: 1;
+  font-size: 14px;
+}
+
+.results-score {
+  font-size: 14px;
+  font-weight: 500;
+  font-family: monospace;
+}
+
+/* ── TIMER QUESTION INDICATOR ── */
+.question-timer-bar {
+  height: 3px;
+  background: #e8e8e4;
+  border-radius: 2px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.question-timer-fill {
+  height: 100%;
+  background: #BA7517;
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+/* ── Waiting overlay for multiplayer ── */
+.waiting-overlay {
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+  padding: 2rem;
+  animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .menu-title { font-size: 26px; }
+  .header { flex-direction: column; gap: 12px; align-items: flex-start; }
+  .lobby-header { flex-direction: column; }
+  .podium-stand { width: 56px; }
+  .podium-avatar { width: 30px; height: 30px; font-size: 13px; }
+  .team-scores-display { gap: 16px; }
+  .team-score-val { font-size: 26px; }
+}
